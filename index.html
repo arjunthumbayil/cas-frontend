@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alert System PWA</title>
+    <link rel="manifest" href="/manifest.json" />
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .notification {
+        padding: 20px;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 5px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="notification" id="notification">
+      <!-- Notification message will appear here -->
+    </div>
+
+    <script>
+      // Register the service worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            console.log(
+              'Service Worker registered with scope:',
+              registration.scope
+            );
+          })
+          .catch((error) => {
+            console.error('Service Worker registration failed:', error);
+          });
+      }
+
+      // Connect to the backend
+      const socket = io('http://localhost:3000');
+
+      // Listen for notifications from the backend
+      socket.on('notification', (data) => {
+        const notificationElement = document.getElementById('notification');
+        notificationElement.textContent = `${data.message} Value: ${data.value}`;
+        notificationElement.style.display = 'block';
+
+        // Hide the notification after 5 seconds
+        setTimeout(() => {
+          notificationElement.style.display = 'none';
+        }, 5000);
+
+        // Show a push notification
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification('Alert System', {
+            body: data.message,
+            icon: '/icon-192x192.png',
+          });
+        }
+      });
+
+      // Request notification permission
+      if ('Notification' in window) {
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            console.log('Notification permission granted.');
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
