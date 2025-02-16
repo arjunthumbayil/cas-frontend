@@ -26,12 +26,9 @@
     </style>
   </head>
   <body>
-    <div class="notification" id="notification">
-      <!-- Notification message will appear here -->
-    </div>
+    <div class="notification" id="notification"></div>
 
     <script>
-      // Register the service worker
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker
           .register('/sw.js')
@@ -47,7 +44,7 @@
       }
 
       // Connect to the backend
-      const socket = io('http://localhost:3000');
+      const socket = io('https://cas-backend-pyjk.onrender.com');
 
       // Listen for notifications from the backend
       socket.on('notification', (data) => {
@@ -55,10 +52,10 @@
         notificationElement.textContent = `${data.message} Value: ${data.value}`;
         notificationElement.style.display = 'block';
 
-        // Hide the notification after 5 seconds
+        // Hide the notification after 10 seconds
         setTimeout(() => {
           notificationElement.style.display = 'none';
-        }, 5000);
+        }, 10000);
 
         // Show a push notification
         if ('Notification' in window && Notification.permission === 'granted') {

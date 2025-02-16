@@ -1,7 +1,6 @@
 {
-  "short_name": "AlertApp",
+  "short_name": "Alert PWA",
   "name": "Alert System PWA",
-  "description": "A PWA that sends alerts when a condition is met.",
   "icons": [
     {
       "src": "/icon-192x192.png",
@@ -10,13 +9,13 @@
     },
     {
       "src": "/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": "/",
   "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "#4CAF50"
+  "theme_color": "#4caf50"
 }
