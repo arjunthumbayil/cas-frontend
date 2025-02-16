@@ -44,7 +44,10 @@
       }
 
       // Connect to the backend
-      const socket = io('https://cas-backend-pyjk.onrender.com');
+
+      const socket = io('https://cas-backend-pyjk.onrender.com', {
+        transports: ['websocket', 'polling'], // Ensure compatibility
+      });
 
       // Listen for notifications from the backend
       socket.on('notification', (data) => {
