@@ -1,15 +1,15 @@
-const CACHE_NAME = 'alert-system-v1';
-const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/icon-192x192.png',
-  '/icon-512x512.png',
-];
-
 self.addEventListener('install', (event) => {
+  console.log('Service Worker installing...');
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+    caches.open('pwa-cache').then((cache) => {
+      return cache.addAll([
+        '/',
+        '/index.html',
+        '/icon-192x192.png',
+        '/icon-512x512.png',
+        '/manifest.json',
+        '/styles.css',
+      ]);
     })
   );
 });
